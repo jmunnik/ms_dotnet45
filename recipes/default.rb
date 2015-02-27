@@ -16,11 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'chef/win32/version'
+windows_version = Chef::ReservedNames::Win32::Version.new
+
 if platform?('windows')
-  if win_version.windows_server_2008? || win_version.windows_server_2008_r2? || win_version.windows_7? || win_version.windows_vista?
+  if win_version.windows_server_2008? || win_version.windows_server_2008_r2? || win_version.windows_7? || win_version.windows_vista? || windows_version.windows_server_2012? || windows_version.windows_server_2012_r2?
      # Determine which release of .NET Framework has been installed (4.5, 4.5.1 or 4.5.2). Normally this can already been done via windows package but 
      # because 4.5 is embedded in windows 2012 R2 it's not in the Installed Programs.
-     unless registry_value_exists?('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full',
+     unless registry_data_exists?('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full',
          { 
 		:name => "Release", 
 	 	:type => :dword, 
