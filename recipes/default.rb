@@ -18,12 +18,21 @@
 
 if platform?('windows')
   if win_version.windows_server_2008? || win_version.windows_server_2008_r2? || win_version.windows_7? || win_version.windows_vista?
-    unless File.exist?('C:/Windows/Microsoft.NET/Framework/v4.0.30319/Microsoft.Activities.Build.dll')
-      windows_package 'Microsoft .NET Framework 4.5' do
+     # Determine which release of .NET Framework has been installed (4.5, 4.5.1 or 4.5.2). Normally this can already been done via windows package but 
+     # because 4.5 is embedded in windows 2012 R2 it's not in the Installed Programs.
+     unless registry_value_exists?('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full',
+         { 
+		:name => "Release", 
+	 	:type => :dword, 
+		:data => node['ms_dotnet45']['release'] 
+	  },	:x86_64
+      )
+      
+      # Call windows_package and version as displayed in Installed Programs 
+      windows_package "Microsoft .NET Framework #{node['ms_dotnet45']['version']}" do 
         source node['ms_dotnet45']['http_url']
         installer_type :custom
         options '/quiet /norestart'
-        timeout node['ms_dotnet45']['timeout']
         action :install
       end
     end
