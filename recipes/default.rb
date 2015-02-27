@@ -33,7 +33,12 @@ if platform?('windows')
         source node['ms_dotnet45']['http_url']
         installer_type :custom
         options '/quiet /norestart'
-        action :install
+        timeout node['ms_dotnet45']['timeout']
+        # If a previous version of .NET Framework is installed (for example 4.0) an removal will take place. After installation of 4.5.x you will receive
+        # ==> Mixlib::ShellOut::ShellCommandFailed. Expected process to exit with [0, 42, 127], but received '3010' which means; 
+        # A reboot is required but not really necesarry
+        success_codes [0, 3010]
+	action :install
       end
     end
   elsif win_version.windows_server_2003_r2? || win_version.windows_server_2003? || win_version.windows_xp?
