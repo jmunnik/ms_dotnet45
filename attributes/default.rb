@@ -19,4 +19,8 @@
 #
 
 default['ms_dotnet45']['http_url'] = 'http://download.microsoft.com/download/E/2/1/E21644B5-2DF2-47C2-91BD-63C560427900/NDP452-KB2901907-x86-x64-AllOS-ENU.exe'
+# The release attribute is to determine which release of .NET Framework 4.5 is installed (see article below)
+# https://msdn.microsoft.com/en-us/library/hh925568(v=vs.110).aspx
+default['ms_dotnet45']['release'] = '379893'
+default['ms_dotnet45']['version'] = '4.5.2'
 default['ms_dotnet45']['timeout'] = 600
