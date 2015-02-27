@@ -42,8 +42,8 @@ if platform?('windows')
       end
     end
   elsif win_version.windows_server_2003_r2? || win_version.windows_server_2003? || win_version.windows_xp?
-    Chef::Log.warn('The .NET 4.5 Chef recipe only supports Windows Vista, 7, 2008, and 2008 R2.')
+    Chef::Log.warn("The .NET #{node['ms_dotnet45']['version']} Chef recipe only supports Windows Vista SP2, Windows 7 SP1, Windows 8, Windows 8.1, Windows Server 2008 SP2, Windows Server 2008 R2 SP1, Windows Server 2012 and Windows Server 2012 R2")
   end
 else
-  Chef::Log.warn('Microsoft .NET Framework 4.5 can only be installed on the Windows platform.')
+   Chef::Log.warn("Microsoft .NET Framework #{node['ms_dotnet45']['version']} can only be installed on the Windows platform.")
 end
